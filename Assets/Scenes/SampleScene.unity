@@ -2028,7 +2028,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45577bc6da6d81643a88cd558e2fda41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roundTime: 40
+  _ball: {fileID: 1082845612}
+  _roundTime: 5
 --- !u!4 &1430605602
 Transform:
   m_ObjectHideFlags: 0
