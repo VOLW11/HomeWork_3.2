@@ -15,7 +15,7 @@ public class Ball : MonoBehaviour
     private float _yInput;
     private float _xInput;
     private float _deadZone = 0.05f;
-    private float _minJumpDistance = 1.5f;
+    private float _minJumpDistance = 2f;
 
     private bool _isJump;
     private bool isGrounded;
@@ -67,5 +67,10 @@ public class Ball : MonoBehaviour
     public void AddCoins()
     {
         CoinsValue ++;
+    }
+
+    public void RemoveForces()
+    {
+        _rigidbody.isKinematic = true;
     }
 }

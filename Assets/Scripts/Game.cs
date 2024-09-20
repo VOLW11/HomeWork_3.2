@@ -41,7 +41,7 @@ public class Game : MonoBehaviour
     {
         if (_ball.CoinsValue == _coinsToWin)
         {
-            _ball.enabled = false;
+            _ball.RemoveForces();
             _isPlaying = false;
             Debug.Log(_WinGame + _coinsToWin);
         }
