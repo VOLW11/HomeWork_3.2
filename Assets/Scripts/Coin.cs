@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-
     private void OnTriggerEnter(Collider other)
     {
         Ball ball = other.GetComponent<Ball>();
@@ -16,5 +15,4 @@ public class Coin : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 }
