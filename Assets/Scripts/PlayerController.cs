@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpSpeed;
@@ -12,8 +12,6 @@ public class Ball : MonoBehaviour
     private string _axisHorizontal = "Horizontal";
     private string _axisVertical = "Vertical";
 
-    private float _yInput;
-    private float _xInput;
     private float _deadZone = 0.05f;
     private float _minJumpDistance = 2f;
 
@@ -29,44 +27,32 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        _yInput = Input.GetAxisRaw(_axisVertical);
-        _xInput = Input.GetAxisRaw(_axisHorizontal);
         _isJump = Input.GetKeyDown(KeyCode.Space);
 
-        JumpBall();
+        Jump();
     }
 
     private void FixedUpdate()
     {
-        MoveBall();
+        Move();
     }
 
-    private void MoveBall ()
+    private void Move()
     {
-        if (_yInput > _deadZone)
-            _rigidbody.AddForce(Vector3.forward * _speed, ForceMode.Force);
+        Vector3 input = new Vector3 (Input.GetAxisRaw(_axisHorizontal), 0, Input.GetAxisRaw(_axisVertical));
 
-        if (_yInput < -_deadZone)
-            _rigidbody.AddForce(Vector3.back * _speed, ForceMode.Force);
-
-        if (_xInput > _deadZone)
-            _rigidbody.AddForce(Vector3.right * _speed, ForceMode.Force);
-
-        if (_xInput < -_deadZone)
-            _rigidbody.AddForce(Vector3.left * _speed, ForceMode.Force);
+        if (input.magnitude >= _deadZone)
+        {
+            _rigidbody.AddForce(input.normalized * _speed, ForceMode.Force);
+        }
     }
 
-    private void JumpBall()
+    private void Jump()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, _minJumpDistance);
 
         if (_isJump && isGrounded)
             _rigidbody.AddForce(Vector3.up * _jumpSpeed, ForceMode.Force);
-    }
-
-    public void AddCoins()
-    {
-        CoinsValue ++;
     }
 
     public void RemoveForces()

@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] private Ball _ball;
+    [SerializeField] private PlayerController _playerController;
+    [SerializeField] private CoinCollector _coinCollector;
     [SerializeField] private float _roundTime;
 
     private int _coinsToWin = 10;
     private float _currentTime;
-    private string _WinGame = "Вы победили! Собрано необходимое колличество монет: ";
+    private string _winGame = "Вы победили! Собрано необходимое колличество монет: ";
     private string _gameOver = "Время вышло! Конец игры.";
     private bool _isPlaying;
 
@@ -21,39 +22,36 @@ public class Game : MonoBehaviour
 
     private void Update()
     {
-        StartedTheGame();
-        GameOver();
+        TimeCount();
+
+        if (_coinCollector.CoinsValue == _coinsToWin && _isPlaying)
+            WinTheGame();
+
+        if (_currentTime >= _roundTime && _isPlaying)
+            GameOver();
     }
 
-    private void StartedTheGame()
+    private void TimeCount()
     {
         if (_currentTime < _roundTime && _isPlaying)
         {
             _currentTime += Time.deltaTime;
 
             Debug.Log("Time: " + _currentTime);
-
-            WinTheGame();
         }
     }
 
     private void WinTheGame()
     {
-        if (_ball.CoinsValue == _coinsToWin)
-        {
-            _ball.RemoveForces();
-            _isPlaying = false;
-            Debug.Log(_WinGame + _coinsToWin);
-        }
+        _playerController.RemoveForces();
+        _isPlaying = false;
+        Debug.Log(_winGame + _coinsToWin);
     }
 
     private void GameOver()
     {
-        if (_currentTime >= _roundTime && _isPlaying)
-        {
-            Debug.Log(_gameOver);
-            Destroy(_ball.gameObject);
-            _isPlaying = false;
-        }
+        Debug.Log(_gameOver);
+        Destroy(_playerController.gameObject);
+        _isPlaying = false;
     }
 }

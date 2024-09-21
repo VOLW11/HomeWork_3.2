@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    [SerializeField] private CoinCollector _coinCollector;
+
     private void OnTriggerEnter(Collider other)
     {
-        Ball ball = other.GetComponent<Ball>();
+        PlayerController playerController = other.GetComponent<PlayerController>();
 
-        if (ball != null)
+        if (playerController != null)
         {
-            ball.AddCoins();
+            _coinCollector.AddCoins();
             Destroy(gameObject);
         }
     }
